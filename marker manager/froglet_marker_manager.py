@@ -7,7 +7,7 @@ bl_info = {
     "description": "Marker Manager in a Tab. Store and set different collections of markers,",
     "warning": "preview of early alpha... ",
     "category": "Markers",
-    "doc_url": ""
+    "doc_url": "https://github.com/froglet-studio/blendertools/blob/main/marker%20manager/froglet_marker_manager.py"
 }
 import bpy
 from bpy.app.handlers import persistent
