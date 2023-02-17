@@ -25,7 +25,7 @@ class FRGLT_install(Operator):
     def execute(self, context):
         preferences = bpy.context.preferences.addons[__name__].preferences
         bpy.ops.preferences.addon_install(filepath=preferences.file, overwrite=True)
-
+        bpy.ops.script.reload()
         return {'FINISHED'}
 
 class FRGLT_load_file(Operator, ImportHelper):
@@ -42,7 +42,7 @@ class FRGLT_load_file(Operator, ImportHelper):
         """Do something with the selected file(s)."""
         preferences = bpy.context.preferences.addons[__name__].preferences
         preferences.file = self.filepath
-
+        
         return {'FINISHED'}
 
 class FRGLT_manager_addon_preferences(AddonPreferences):
