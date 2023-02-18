@@ -45,7 +45,7 @@ class FRGLT_load_file(Operator, ImportHelper):
         
         return {'FINISHED'}
 
-class FRGLT_manager_addon_preferences(AddonPreferences):
+class FRGLT_addon_loader_preferences(AddonPreferences):
     # this must match the add-on name, use '__package__'
     # when defining this in a submodule of a python package.
     bl_idname = __name__
@@ -75,7 +75,7 @@ class FRGLT_manager_addon_preferences(AddonPreferences):
 classes = [ 
     FRGLT_install,
     FRGLT_load_file,
-    FRGLT_manager_addon_preferences
+    FRGLT_addon_loader_preferences
 
 ]
 
