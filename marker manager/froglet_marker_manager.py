@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Marker manager - Froglet Studio Blender Tools",
     "author" : "Julius Hilker, Froglet Sudio",
-    "version": (0 , 3),
+    "version": (0 , 3, 1),
     "blender": (3, 2, 2),
     "location": "Timeline + Dopesheet + Graph + Sequencer",
     "description": "Marker manager in a tab. Store markers in collections.",
@@ -15,6 +15,15 @@ from bpy.app.handlers import persistent
 from bpy.types import Operator, AddonPreferences
 from bpy.props import StringProperty, IntProperty, BoolProperty
 
+def devOut(msg):
+    """Prints debug messages if developer mode is enabled."""
+    addon_id = "froglet_marker_manager"  # Replace with your actual addon ID
+    if addon_id in bpy.context.preferences.addons:
+        if bpy.context.preferences.addons[addon_id].preferences.devMode:
+            print(msg)
+    else:
+        print(f"Addon '{addon_id}' is not found in preferences.")
+
 def FRGLT_marker_select(self,context):
     scene = context.scene
     ops = bpy.ops
@@ -22,7 +31,7 @@ def FRGLT_marker_select(self,context):
     collection_index = scene.FRGLT_MarkerCollectionsIndex   
     current_collection = collections[collection_index]  
     markers = current_collection.items
-    print("marker select",current_collection.index)
+    devOut("marker select",current_collection.index)
 
 
     if len(markers) == 0:
@@ -592,6 +601,12 @@ class FRGLT_marker_manager_preferences(AddonPreferences):
         update = lambda a,b: update_pref(a,b,"show_sequencer")
     )    
 
+    devMode: BoolProperty(
+        name="Developer Mode",
+        description='Enables all error tracking messages.',
+        default=False,
+    )
+
 
 
     def draw(self, context):
@@ -608,6 +623,8 @@ class FRGLT_marker_manager_preferences(AddonPreferences):
         col.prop(self, "show_nla")
         col.prop(self, "show_graph")
         col.prop(self, "show_sequencer")
+
+        layout.prop(self, "devMode", text="Dev Mode")
 
 
 register_panels = [
@@ -693,7 +710,7 @@ def set_pinned_collection(context):
 
     if bpy.context.active_object:
         if bpy.types.Object.frglt_old_selection != bpy.context.active_object.name:
-            print("new selection detected")
+            devOut("new selection detected")
             collection = bpy.context.active_object.frglt_pinnedMarkerCollection
             collections = bpy.context.scene.LIST_FRGLT_MarkerCollections
             i = 0
@@ -705,7 +722,7 @@ def set_pinned_collection(context):
                     
                 i += 1
         else:
-            print("No new Selection")
+            devOut("No new Selection")
            
 
         bpy.types.Object.frglt_old_selection = bpy.context.active_object.name
@@ -753,7 +770,7 @@ def register():
             if area.type in {"DOPESHEED_EDITOR", "GRAPH_EDITOR", "NLA_EDITOR", "SEQUENCER"}:
                 area.tag_redraw()
 
-    print("Welcome to the fantastic world of markers! Blender for the win...")
+    devOut("Welcome to the fantastic world of markers! Blender for the win...")
 
 def unregister():
 
@@ -777,7 +794,7 @@ def unregister():
         space.draw_handler_remove(owner, "WINDOW")
     spaces.clear()
 
-    print("Goodbye and good night! See you soon in Blender Heaven!")
+    devOut("Goodbye and good night! See you soon in Blender Heaven!")
 
 if __name__ == "__main__":
     register()
