@@ -794,7 +794,7 @@ def unregister():
         space.draw_handler_remove(owner, "WINDOW")
     spaces.clear()
 
-    devOut("Goodbye and good night! See you soon in Blender Heaven!")
+    print("Goodbye and good night! See you soon in Blender Heaven!")
 
 if __name__ == "__main__":
     register()
