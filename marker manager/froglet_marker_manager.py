@@ -11,6 +11,9 @@ bl_info = {
 }
 
 import bpy
+import sys
+if bpy.app.background:
+    sys.exit(0) # Skip executing addon when Blender runs in background CLI
 from bpy.app.handlers import persistent
 from bpy.types import Operator, AddonPreferences
 from bpy.props import StringProperty, IntProperty, BoolProperty
